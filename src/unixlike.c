@@ -29,6 +29,13 @@
 #include "direntry.h"
 
 struct fat_vol_handle *
+ufat_mount(struct block_device *dev);
+struct fat_file_handle *
+ufat_open(struct fat_vol_handle *fat, const char *path, int flags);
+int ufat_stat(struct fat_file_handle *h, struct stat *st);
+
+
+struct fat_vol_handle *
 ufat_mount(struct block_device *dev)
 {
 	struct fat_vol_handle *vol = malloc(sizeof(*vol));

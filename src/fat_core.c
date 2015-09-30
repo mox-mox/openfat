@@ -83,7 +83,10 @@ uint32_t _fat_get_next_cluster(const struct fat_vol_handle *h, uint32_t cluster)
 		offset = cluster * 4;
 
 	sector = h->reserved_sector_count + (offset / h->bytes_per_sector);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 	offset %= h->bytes_per_sector;
+#pragma GCC diagnostic pop
 
 	FAT_GET_SECTOR(h, sector);
 
