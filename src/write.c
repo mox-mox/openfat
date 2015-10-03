@@ -241,7 +241,7 @@ int fat_write(struct fat_file_handle *h, const void *buf, int size)
 		else
 			FAT_FLUSH_SECTOR();
 
-		memcpy(_fat_sector_buf + offset, buf + i, chunk);
+		memcpy(_fat_sector_buf + offset, (void*)((uint32_t)buf + i), chunk);
 		FAT_PUT_SECTOR(h->fat, sector);
 		h->position += chunk;
 		i += chunk;
@@ -318,11 +318,11 @@ static void build_short_name(uint8_t *sname, const char *name, int n)
 
 	memset(sname, ' ', 11);
 	for(i = 0; (i < 8) && name[i] && (name[i] != '.'); i++) 
-		sname[i] = toupper(name[i]);
+		sname[i] = toupper((int)name[i]);
 	
 	char *suffix = strrchr(name, '.');
 	if(suffix) for(j = 1; (j < 4) && suffix[j]; j++) 
-		sname[j+7] = toupper(suffix[j]);
+		sname[j+7] = toupper((int)suffix[j]);
 
 	if(((i == 8) && (name[i] != '.')) ||
 	   ((suffix - name) != i)) {

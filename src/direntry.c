@@ -115,7 +115,7 @@ int fat_readdir(struct fat_file_handle *h, struct dirent *ent)
 		if(ent->d_name[0] == 0) {
 #endif
 			for(i = 0, j = 0; i < 11; i++, j++) {
-				ent->d_name[j] = tolower(fatent.name[i]);
+				ent->d_name[j] = tolower((int)fatent.name[i]);
 				if(fatent.name[i] == ' ') {
 					ent->d_name[j] = '.';
 					while((fatent.name[++i] == ' ') && (i < 11));
@@ -180,7 +180,7 @@ static int fat_comparesfn(const char * name, const char *fatname)
 			if(i < 8) continue;
 			if(i == 8) name++;
 		}
-		canonname[i] = toupper(*name++);
+		canonname[i] = toupper((int)(*name++));
 	}
 	return ((*name == 0) || (*name == '/')) && !memcmp(canonname, fatname, 11);
 }

@@ -208,7 +208,7 @@ int fat_read(struct fat_file_handle *h, void *buf, int size)
 	for(i = 0; i < size; ) {
 		uint16_t chunk = MIN(h->fat->bytes_per_sector - offset, size - i);
 		FAT_GET_SECTOR(h->fat, sector);
-		memcpy(buf + i, _fat_sector_buf + offset, chunk);
+		memcpy((void*)(((uint32_t)buf) + i), _fat_sector_buf + offset, chunk);
 		h->position += chunk;
 		i += chunk;
 		if((h->position % h->fat->bytes_per_sector) != 0) 
