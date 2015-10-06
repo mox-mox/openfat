@@ -4,4 +4,5 @@
 *.img
 .*.swp
 tags
+doc/html
 
